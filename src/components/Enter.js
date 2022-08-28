@@ -1,8 +1,8 @@
-import { useState, useRef, useEffect, useContext } from "react"
-import AuthContext from "../context/AuthProvider"
+import { useState, useRef, useEffect } from "react"
+import useAuth from "../hooks/useAuth"
 
 const Enter = () => {
-    const { setAuth } = useContext(AuthContext)
+    const { setAuth } = useAuth()
     const usernameRef = useRef() // reference to the username input so we can focus it when the page loads
     const [username, setUsername] = useState("")
 

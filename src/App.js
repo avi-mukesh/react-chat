@@ -5,6 +5,7 @@ import Enter from "./components/Enter"
 import Home from "./components/Home"
 import Layout from "./components/Layout"
 import Missing from "./components/Missing"
+import RequireAuth from "./components/RequireAuth"
 
 function App() {
     return (
@@ -12,9 +13,12 @@ function App() {
             <Route path="/" element={<Layout />}>
                 {/* public route */}
                 <Route path="enter" element={<Enter />} />
-                {/* want to protect this route */}
-                {/* this rout correspodns to / */}
-                <Route index element={<Home />} />{" "}
+
+                {/* routes nested in here are protected by RequireAuth */}
+                <Route element={<RequireAuth />}>
+                    <Route index element={<Home />} />{" "}
+                </Route>
+
                 <Route path="*" element={<Missing />} />
             </Route>
         </Routes>
