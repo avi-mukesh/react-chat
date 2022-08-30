@@ -1,10 +1,15 @@
 import { useState, useRef, useEffect } from "react"
+import { useLocation, useNavigate } from "react-router-dom"
 import useAuth from "../hooks/useAuth"
 
 const Enter = () => {
     const { setAuth } = useAuth()
     const usernameRef = useRef() // reference to the username input so we can focus it when the page loads
-    const [username, setUsername] = useState("")
+    const [username, setUsername] = useState("avi")
+
+    const navigate = useNavigate()
+    const location = useLocation()
+    const from = location?.state?.from?.pathname || "/" // the page the user was initially trying to access before being redirected to /enter
 
     useEffect(() => {
         usernameRef.current.focus()
@@ -24,9 +29,13 @@ const Enter = () => {
             })
             const data = await response.json()
             const accessToken = data.accessToken
+            console.log(accessToken)
 
             setAuth({ username, accessToken }) // store username and accessToken in our auth object which is in the global context
             setUsername("")
+            // take the user to where they wanted to go, before they were redirected to this enter page
+            navigate(from, { replace: true })
+            //replace: true makes it so that after the user has entered the chat and if they press back on their browser, they can't log in again just by pressing forward
         } catch (error) {}
     }
 

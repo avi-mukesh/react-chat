@@ -1,0 +1,1 @@
+html{font-family:"Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande", "Lucida Sans", Arial, sans-serif}*{box-sizing:border-box;margin:0;padding:0}.container{display:grid;align-items:space-around;grid-template-rows:90% 10%;height:100vh}.container #messages{border:2px solid grey}

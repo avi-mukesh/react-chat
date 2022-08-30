@@ -6,6 +6,7 @@ import Home from "./components/Home"
 import Layout from "./components/Layout"
 import Missing from "./components/Missing"
 import RequireAuth from "./components/RequireAuth"
+import PersistEnter from "./components/PersistEnter"
 
 function App() {
     return (
@@ -15,8 +16,10 @@ function App() {
                 <Route path="enter" element={<Enter />} />
 
                 {/* routes nested in here are protected by RequireAuth */}
-                <Route element={<RequireAuth />}>
-                    <Route index element={<Home />} />{" "}
+                <Route element={<PersistEnter />}>
+                    <Route element={<RequireAuth />}>
+                        <Route index element={<Home />} />{" "}
+                    </Route>
                 </Route>
 
                 <Route path="*" element={<Missing />} />

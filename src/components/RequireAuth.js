@@ -5,6 +5,7 @@ const RequireAuth = () => {
     const { auth } = useAuth()
     const location = useLocation()
 
+    console.log(auth.username)
     // Outlet represents all the child components of RequireAuth
     // hence RequireAuth can protect all the child components nested inside of it
     return auth?.username ? (
