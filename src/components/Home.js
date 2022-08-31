@@ -2,7 +2,8 @@ import { useEffect, useRef, useState } from "react"
 import useAuth from "../hooks/useAuth"
 import useExit from "../hooks/useExit"
 import useRefreshToken from "../hooks/useRefreshToken"
-import Message from "./Message"
+import Messages from "./Messages"
+import { socket } from "../socket"
 
 const Home = () => {
     const { auth } = useAuth()
@@ -12,26 +13,9 @@ const Home = () => {
     const messageRef = useRef()
     const [message, setMessage] = useState("hello")
 
-    const [messages, setMessages] = useState([])
-
     useEffect(() => {
-        const getMessages = async function () {
-            const response = await fetch("http://localhost:5000/messages", {
-                method: "GET",
-                headers: {
-                    authorization: `Bearer ${auth.accessToken}`,
-                },
-            })
-            const data = await response.json()
-            setMessages(data.messages)
-        }
-        getMessages()
         messageRef.current.focus()
     }, [])
-
-    useEffect(()=>{
-        
-    })
 
     const handleSendMessage = async (e) => {
         e.preventDefault()
@@ -50,7 +34,8 @@ const Home = () => {
             await refresh()
         }
         const data = await response.json()
-        console.log(data)
+        socket.emit("newmessage", data.message)
+        setMessage("")
     }
 
     const handleExit = async (e) => {
@@ -60,13 +45,7 @@ const Home = () => {
 
     return (
         <main>
-            <div className="messages">
-                {messages.length
-                    ? messages.map((message) => {
-                          return <Message key={message._id} message={message} />
-                      })
-                    : "No messages to display"}
-            </div>
+            <Messages />
 
             <form onSubmit={handleSendMessage}>
                 <input
