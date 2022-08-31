@@ -1,5 +1,6 @@
 import { Route, Routes } from "react-router-dom"
 import "./App.css"
+import "bootstrap/dist/css/bootstrap.min.css"
 
 import Enter from "./components/Enter"
 import Home from "./components/Home"

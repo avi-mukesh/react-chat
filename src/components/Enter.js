@@ -2,6 +2,9 @@ import { useState, useRef, useEffect } from "react"
 import { useLocation, useNavigate } from "react-router-dom"
 import useAuth from "../hooks/useAuth"
 
+import Form from "react-bootstrap/Form"
+import Button from "react-bootstrap/Button"
+
 const Enter = () => {
     const { setAuth } = useAuth()
     const usernameRef = useRef() // reference to the username input so we can focus it when the page loads
@@ -40,19 +43,25 @@ const Enter = () => {
     }
 
     return (
-        <form onSubmit={handleSubmit}>
-            <label htmlFor="username"></label>
-            <input
-                id="username"
-                type="text"
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
-                ref={usernameRef}
-                autoComplete="off"
-                required
-            ></input>
-            <button type="submit">Enter chat</button>
-        </form>
+        <div className="row align-items-center">
+            <div className="col">
+                <Form onSubmit={handleSubmit} className="d-flex">
+                    <label htmlFor="username"></label>
+                    <Form.Control
+                        id="username"
+                        type="text"
+                        value={username}
+                        onChange={(e) => setUsername(e.target.value)}
+                        ref={usernameRef}
+                        autoComplete="off"
+                        required
+                    />
+                    <Button variant="primary" type="submit">
+                        Enter chat
+                    </Button>
+                </Form>
+            </div>
+        </div>
     )
 }
 export default Enter

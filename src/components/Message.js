@@ -1,22 +1,32 @@
-import React from "react"
 import useAuth from "../hooks/useAuth"
+
+import ListGroup from "react-bootstrap/ListGroup"
+import Badge from "react-bootstrap/Badge"
 
 const Message = ({ message }) => {
     const { auth } = useAuth()
 
     return (
-        <div
-            className="messageBox"
+        // <div
+        //     className="messageBox"
+
+        // >
+        <ListGroup.Item
             style={{
-                justifyContent:
-                    auth.username === message.sender
-                        ? "flex-end"
-                        : "flex-start",
+                textAlign: auth.username === message.sender ? "end" : "start",
             }}
+            variant="dark"
+            className="p-1"
         >
-            <h4>{message.sender}</h4>
-            <p>{message.content}</p>
-        </div>
+            <Badge bg="secondary" pill>
+                {message.timeCreated}
+            </Badge>
+            <div className="text-dark">
+                <div className="fw-bold">{message.sender}</div>
+                {message.content}
+            </div>
+        </ListGroup.Item>
+        // </div>
     )
 }
 

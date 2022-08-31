@@ -1,9 +1,14 @@
 import { useEffect, useRef, useState } from "react"
+
 import useAuth from "../hooks/useAuth"
 import useExit from "../hooks/useExit"
 import useRefreshToken from "../hooks/useRefreshToken"
+
 import Messages from "./Messages"
 import { socket } from "../socket"
+
+import Form from "react-bootstrap/Form"
+import Button from "react-bootstrap/Button"
 
 const Home = () => {
     const { auth } = useAuth()
@@ -34,7 +39,7 @@ const Home = () => {
             await refresh()
         }
         const data = await response.json()
-        socket.emit("newmessage", data.message)
+        socket.emit("newmessage")
         setMessage("")
     }
 
@@ -44,20 +49,25 @@ const Home = () => {
     }
 
     return (
-        <main>
+        <main className="flex-grow-1">
             <Messages />
 
-            <form onSubmit={handleSendMessage}>
-                <input
+            <Form onSubmit={handleSendMessage} className="w-100 m-2 d-flex">
+                <Form.Control
                     ref={messageRef}
                     value={message}
                     onChange={(e) => setMessage(e.target.value)}
-                ></input>
-                <button type="submit">Send</button>
-            </form>
-            <form onSubmit={handleExit}>
-                <button type="submit">Exit</button>
-            </form>
+                    className="m-2"
+                />
+                <Button type="submit" className="m-2">
+                    Send
+                </Button>
+            </Form>
+            <Form onSubmit={handleExit}>
+                <Button type="submit" variant="danger">
+                    Exit
+                </Button>
+            </Form>
         </main>
     )
 }
