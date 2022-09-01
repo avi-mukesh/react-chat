@@ -1,6 +1,7 @@
-import { useState, useRef, useEffect } from "react"
+import { useRef, useEffect } from "react"
 import { useLocation, useNavigate } from "react-router-dom"
 import useAuth from "../hooks/useAuth"
+import useInput from "../hooks/useInput"
 
 import Form from "react-bootstrap/Form"
 import Button from "react-bootstrap/Button"
@@ -8,7 +9,9 @@ import Button from "react-bootstrap/Button"
 const Enter = () => {
     const { setAuth } = useAuth()
     const usernameRef = useRef() // reference to the username input so we can focus it when the page loads
-    const [username, setUsername] = useState("avi")
+    const [username, resetUsername, userAttributes] = useInput("username")
+
+    // const [username, ]
 
     const navigate = useNavigate()
     const location = useLocation()
@@ -35,7 +38,7 @@ const Enter = () => {
             console.log(data)
 
             setAuth({ username, accessToken }) // store username and accessToken in our auth object which is in the global context
-            setUsername("")
+            resetUsername()
             // take the user to where they wanted to go, before they were redirected to this enter page
             navigate(from, { replace: true })
             //replace: true makes it so that after the user has entered the chat and if they press back on their browser, they can't log in again just by pressing forward
@@ -50,8 +53,8 @@ const Enter = () => {
                     <Form.Control
                         id="username"
                         type="text"
-                        value={username}
-                        onChange={(e) => setUsername(e.target.value)}
+                        // spreading out the userAttributes object which has value and onChange
+                        {...userAttributes}
                         ref={usernameRef}
                         autoComplete="off"
                         required
