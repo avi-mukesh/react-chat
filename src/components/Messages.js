@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react"
+import { useState, useEffect, useRef } from "react"
 import useAuth from "../hooks/useAuth"
 
 import Message from "./Message"
@@ -10,6 +10,12 @@ import ListGroup from "react-bootstrap/ListGroup"
 const Messages = () => {
     const { auth } = useAuth()
     const [messages, setMessages] = useState([])
+
+    const messagesEndRef = useRef(null)
+
+    const scrollToBottom = () => {
+        messagesEndRef.current?.scrollIntoView({ behavior: "smooth" })
+    }
 
     useEffect(() => {
         const getMessages = async function () {
@@ -26,6 +32,7 @@ const Messages = () => {
 
         socket.on("newmessage", async () => {
             await getMessages()
+            // scrollToBottom()
         })
 
         return () => {
@@ -33,15 +40,11 @@ const Messages = () => {
         }
     }, [])
 
-    return (
-        // <div className="messages">
-        //     {messages.length
-        //         ? messages.map((message) => {
-        //               return <Message key={message._id} message={message} />
-        //           })
-        //         : "No messages to display"}
-        // </div>
+    useEffect(() => {
+        scrollToBottom()
+    })
 
+    return (
         <Card className="w-100 overflow-auto">
             <ListGroup variant="flush">
                 {messages.length
@@ -50,6 +53,7 @@ const Messages = () => {
                       })
                     : "No messages to display"}
             </ListGroup>
+            <div ref={messagesEndRef} />
         </Card>
     )
 }

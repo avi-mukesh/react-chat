@@ -11,7 +11,7 @@ import Form from "react-bootstrap/Form"
 import Button from "react-bootstrap/Button"
 
 const Home = () => {
-    const { auth } = useAuth()
+    const { auth, setAuth } = useAuth()
     const exit = useExit()
     const refresh = useRefreshToken()
 
@@ -20,7 +20,8 @@ const Home = () => {
 
     useEffect(() => {
         messageRef.current.focus()
-    }, [])
+        console.log(auth.accessToken)
+    }, [auth.accessToken])
 
     const handleSendMessage = async (e) => {
         e.preventDefault()
@@ -38,18 +39,17 @@ const Home = () => {
         if (response.status === 403) {
             await refresh()
         }
-        const data = await response.json()
         socket.emit("newmessage")
         setMessage("")
     }
 
     const handleExit = async (e) => {
         e.preventDefault()
-        exit()
+        await exit()
     }
 
     return (
-        <main className="flex-grow-1">
+        <main className="d-flex flex-column align-items-center flex-grow-1 w-100 vh-100">
             <Messages />
 
             <Form onSubmit={handleSendMessage} className="w-100 m-2 d-flex">

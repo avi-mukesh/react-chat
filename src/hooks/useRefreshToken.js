@@ -10,10 +10,15 @@ const useRefreshToken = () => {
             method: "POST",
             credentials: "include",
         })
+
         const data = await response.json()
-        console.log("new token", data.accessToken)
         setAuth((prev) => {
-            return { ...prev, accessToken: data.accessToken }
+            console.log(prev)
+            return {
+                ...prev,
+                username: data.username,
+                accessToken: data.accessToken,
+            }
         })
 
         return data.accessToken

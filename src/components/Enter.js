@@ -32,7 +32,7 @@ const Enter = () => {
             })
             const data = await response.json()
             const accessToken = data.accessToken
-            console.log(accessToken)
+            console.log(data)
 
             setAuth({ username, accessToken }) // store username and accessToken in our auth object which is in the global context
             setUsername("")
